@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Despicable Me", "label": "Despicable Me", "shape": "dot", "title": "Media franchise"}, {"color": "#97c2fc", "id": "Sergio Pablos", "label": "Sergio Pablos", "shape": "dot", "title": "Person"}, {"color": "#97c2fc", "id": "Cinco Paul", "label": "Cinco Paul", "shape": "dot", "title": "Person"}, {"color": "#97c2fc", "id": "Ken Daurio", "label": "Ken Daurio", "shape": "dot", "title": "Person"}, {"color": "#97c2fc", "id": "Gru", "label": "Gru", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Margo", "label": "Margo", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Edith", "label": "Edith", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Agnes", "label": "Agnes", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Minions", "label": "Minions", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Illumination", "label": "Illumination", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Universal Pictures", "label": "Universal Pictures", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Despicable Me (2010)", "label": "Despicable Me (2010)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Despicable Me 2 (2013)", "label": "Despicable Me 2 (2013)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Despicable Me 3 (2017)", "label": "Despicable Me 3 (2017)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Despicable Me 4 (2024)", "label": "Despicable Me 4 (2024)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Minions (2015)", "label": "Minions (2015)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Minions: The Rise Of Gru (2022)", "label": "Minions: The Rise Of Gru (2022)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Minions 3 (2027)", "label": "Minions 3 (2027)", "shape": "dot", "title": "Movie"}, {"color": "#97c2fc", "id": "Annecy International Animated Film Festival", "label": "Annecy International Animated Film Festival", "shape": "dot", "title": "Event"}, {"color": "#97c2fc", "id": "Lucy Wilde", "label": "Lucy Wilde", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "El Macho", "label": "El Macho", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Australia", "label": "Australia", "shape": "dot", "title": "Location"}, {"color": "#97c2fc", "id": "Balthazar Bratt", "label": "Balthazar Bratt", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Dru", "label": "Dru", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Maxime Le Mal", "label": "Maxime Le Mal", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Valentina", "label": "Valentina", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Vicious 6", "label": "Vicious 6", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Kevin", "label": "Kevin", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Stuart", "label": "Stuart", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Bob", "label": "Bob", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Dr. Nefario", "label": "Dr. Nefario", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Silas Ramsbottom", "label": "Silas Ramsbottom", "shape": "dot", "title": "Character"}, {"color": "#97c2fc", "id": "Anti-Villain League", "label": "Anti-Villain League", "shape": "dot", "title": "Organization"}, {"color": "#97c2fc", "id": "Floyd Eaglesan", "label": "Floyd Eaglesan", "shape": "dot", "title": "Character"}]);
+                  edges = new vis.DataSet([{"from": "Despicable Me", "title": "CREATOR", "to": "Sergio Pablos"}, {"from": "Despicable Me", "title": "CREATOR", "to": "Cinco Paul"}, {"from": "Despicable Me", "title": "CREATOR", "to": "Ken Daurio"}, {"from": "Despicable Me", "title": "CENTERS_ON", "to": "Gru"}, {"from": "Despicable Me", "title": "INCLUDES", "to": "Margo"}, {"from": "Despicable Me", "title": "INCLUDES", "to": "Edith"}, {"from": "Despicable Me", "title": "INCLUDES", "to": "Agnes"}, {"from": "Despicable Me", "title": "INCLUDES", "to": "Minions"}, {"from": "Despicable Me", "title": "PRODUCED_BY", "to": "Illumination"}, {"from": "Despicable Me", "title": "DISTRIBUTED_BY", "to": "Universal Pictures"}, {"from": "Despicable Me (2010)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Despicable Me 2 (2013)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Despicable Me 3 (2017)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Despicable Me 4 (2024)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Minions (2015)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Minions: The Rise Of Gru (2022)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Minions 3 (2027)", "title": "PART_OF", "to": "Despicable Me"}, {"from": "Despicable Me (2010)", "title": "DEBUTED_AT", "to": "Annecy International Animated Film Festival"}, {"from": "Gru", "title": "PARTNER", "to": "Lucy Wilde"}, {"from": "Lucy Wilde", "title": "INVESTIGATES", "to": "El Macho"}, {"from": "Lucy Wilde", "title": "REASSIGNED_TO", "to": "Australia"}, {"from": "Gru", "title": "TEAM_UP_AGAINST", "to": "Balthazar Bratt"}, {"from": "Gru", "title": "TEAMS_UP_WITH", "to": "Dru"}, {"from": "Gru", "title": "VILLAIN", "to": "Maxime Le Mal"}, {"from": "Maxime Le Mal", "title": "GIRLFRIEND", "to": "Valentina"}, {"from": "Gru", "title": "CONFRONTS", "to": "Vicious 6"}, {"from": "Minions", "title": "INCLUDES", "to": "Kevin"}, {"from": "Minions", "title": "INCLUDES", "to": "Stuart"}, {"from": "Minions", "title": "INCLUDES", "to": "Bob"}, {"from": "Gru", "title": "ASSISTANT", "to": "Dr. Nefario"}, {"from": "Silas Ramsbottom", "title": "DIRECTOR", "to": "Anti-Villain League"}, {"from": "Lucy Wilde", "title": "AGENT", "to": "Anti-Villain League"}, {"from": "Gru", "title": "AGENT", "to": "Anti-Villain League"}, {"from": "Lucy Wilde", "title": "DISCOVERS_MUTAGEN_AT", "to": "Floyd Eaglesan"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"nodes": {"font": {"size": 22}}, "edges": {"color": {"inherit": true}, "smooth": false}, "physics": {"forceAtlas2Based": {"gravitationalConstant": -100, "centralGravity": 0.01, "springLength": 100, "springConstant": 0.08}, "maxVelocity": 50, "minVelocity": 0.1, "solver": "forceAtlas2Based", "timestep": 0.35, "stabilization": {"enabled": true, "iterations": 1000}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
